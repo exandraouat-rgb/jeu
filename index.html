@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour Mon Amour 💙</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e3a8a;
+            --accent: #3b82f6;
+            --light: #dbeafe;
+            --gold: #fbbf24;
+            --rose: #fce7f3;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(252, 231, 243, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .intro, .riddle-screen, .final-screen {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .intro-text {
+            font-size: 1.3em;
+            line-height: 1.8;
+            color: #374151;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .riddle-container {
+            background: linear-gradient(135deg, var(--light) 0%, var(--rose) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid var(--accent);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .riddle-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2em;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .riddle-text {
+            font-size: 1.4em;
+            line-height: 1.7;
+            color: #1f2937;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-top: 25px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            font-family: 'Cormorant Garamond', serif;
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            outline: none;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+            transform: scale(1.02);
+        }
+
+        .button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-family: 'Playfair Display', serif;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .button:active {
+            transform: translateY(-1px);
+        }
+
+        .error {
+            color: #dc2626;
+            font-size: 1em;
+            margin-top: 10px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .success {
+            color: #059669;
+            font-size: 1em;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .progress {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .progress-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #d1d5db;
+            transition: all 0.5s;
+        }
+
+        .progress-dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .progress-dot.completed {
+            background: var(--gold);
+        }
+
+        .final-message {
+            background: linear-gradient(135deg, var(--rose) 0%, var(--light) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 3px solid var(--gold);
+            box-shadow: 0 15px 40px rgba(251, 191, 36, 0.3);
+        }
+
+        .final-message h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .final-message p {
+            font-size: 1.3em;
+            line-height: 2;
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .sweater-reveal {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+            border: 2px dashed var(--accent);
+        }
+
+        .sweater-reveal h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .sweater-box {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            gap: 20px;
+        }
+
+        .sweater-item {
+            flex: 1;
+            background: var(--accent);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .riddle-text {
+                font-size: 1.2em;
+            }
+
+            .sweater-box {
+                flex-direction: column;
+            }
+        }
+
+        .hint-button {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            padding: 10px 25px;
+            font-size: 1em;
+            font-family: 'Cormorant Garamond', serif;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        .hint-button:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .hint-text {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            font-style: italic;
+            color: #4b5563;
+        }
+
+        .video-container {
+            margin: 25px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="hearts"></div>
+    
+    <div class="container">
+        <!-- Écran d'introduction -->
+        <div id="intro" class="intro">
+            <h1>💙 Pour Toi, Mon Amour 💙</h1>
+            <p class="intro-text">
+                Mon cher Christ-Trésor,<br><br>
+                Aujourd'hui, je t'ai préparé une petite aventure spéciale... 
+                Une chasse au trésor où chaque énigme te rapprochera d'une surprise que j'ai créée juste pour toi.<br><br>
+                Prends ton temps, profite de chaque moment, et laisse ton cœur te guider vers le trésor final.<br><br>
+                Avec tout mon amour,<br>
+                Ta Fatim Alexandra 💕
+            </p>
+            <button class="button" onclick="startGame()">Commencer l'Aventure ✨</button>
+        </div>
+
+        <!-- Écrans des énigmes -->
+        <div id="riddle-screen" class="riddle-screen hidden">
+            <h1>Chasse au Trésor 💎</h1>
+            <div class="progress" id="progress"></div>
+            
+            <div class="riddle-container">
+                <div class="riddle-number" id="riddle-number"></div>
+                <div class="riddle-text" id="riddle-text"></div>
+                <div class="input-group">
+                    <input type="text" id="answer-input" placeholder="Ta réponse ici...">
+                    <button class="hint-button" onclick="showHint()">💡 Besoin d'un indice?</button>
+                    <div id="hint" class="hint-text hidden"></div>
+                    <button class="button" onclick="checkAnswer()">Valider 💫</button>
+                    <div id="feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Écran final -->
+        <div id="final-screen" class="final-screen hidden">
+            <h1>🎉 Tu as trouvé le Trésor! 🎉</h1>
+            
+            <div class="final-message">
+                <h2>Mon Message d'Amour Pour Toi</h2>
+                <p>
+                    Mon bébé Christ-Trésor, ma vie, mon doudou,<br><br>
+                    
+                    Même si nous ne sommes ensemble que depuis le 10 janvier, tu as illuminé ma vie d'une manière que je n'aurais jamais imaginée. Chaque jour avec toi est un cadeau précieux, chaque moment passé ensemble est un souvenir que je chéris profondément.<br><br>
+                    
+                    Tu es mon roc, mon sourire du matin, ma pensée du soir. Quand je te regarde, je vois mon avenir, mes rêves, tout ce que j'ai toujours espéré trouver. Tu me rends meilleure, tu me fais rire, tu me comprends d'une façon unique.<br><br>
+                    
+                    Cette Saint-Valentin n'est que le début de toutes celles que nous allons célébrer ensemble. Je veux construire avec toi, grandir avec toi, t'aimer chaque jour un peu plus que la veille.<br><br>
+                    
+                    Tu es mon trésor le plus précieux, et je promets de prendre soin de ton cœur comme tu prends soin du mien.<br><br>
+                    
+                    Je t'aime de tout mon cœur, ma vie, mon tout.💙<br><br>
+                    
+                    Pour toujours,<br>
+                    Ta Alexandra 💕
+                </p>
+            </div>
+
+            <div class="sweater-reveal">
+                <h3>🎁 Et maintenant... Ta Surprise! 🎁</h3>
+                <p style="font-size: 1.2em; color: #374151; margin: 20px 0;">
+                    Pour notre rendez-vous de samedi, j'ai préparé quelque chose de spécial...<br>
+                    Des pulls assortis pour nous deux, dans notre couleur : le bleu! 💙
+                </p>
+                <div class="sweater-box">
+                    <div class="sweater-item">
+                        👔<br>CHRIST-TRÉSOR
+                    </div>
+                    <div class="sweater-item">
+                        👗<br>ALEXANDRA
+                    </div>
+                </div>
+                <p style="font-size: 1.3em; color: var(--primary); margin-top: 25px; font-weight: 600;">
+                    On sera assortis, mon amour! 💙<br>
+                    J'ai hâte de te voir samedi! 😊
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données des énigmes
+        const riddles = [
+            {
+                number: "Énigme 1",
+                text: "Regarde cette vidéo de notre premier moment magique ensemble... À quelle date cette belle sortie a-t-elle eu lieu? (Format: jour mois, exemple: 13 janvier)",
+                answer: ["13 janvier", "13janvier", "13 jan"],
+                hint: "C'était quelques jours après notre officialisation du 10 janvier... 💕",
+                hasVideo: true
+            },
+            {
+                number: "Énigme 2",
+                text: "Ton prénom signifie 'trésor' en français. Mais pour moi, tu es bien plus qu'un trésor, tu es ma ?",
+                answer: ["VIE", "vie", "Vie"],
+                hint: "Nous la vivons actuellement"
+            },
+            {
+                number: "Énigme 3",
+                text: "Je t'appelle souvent ainsi : un mot doux qui évoque l'enfance, la tendresse, quelque chose de tout doux que l'on serre contre soi pour se sentir bien. Comment est-ce que je t'appelle?",
+                answer: ["doudou", "mon doudou"],
+                hint: "C'est un mot tendre que les enfants utilisent pour leur peluche préférée... 🧸"
+            },
+            {
+                number: "Énigme 4",
+                text: "Le jour où tu m'as dit ce que tu ressentais vraiment pour moi . Quelle est la date?",
+                answer: ["10 octobre", "10octobre", "10 oct"],
+                hint: "Le même chiffre revient deux fois ❄️"
+            },
+            {
+                number: "Énigme 5",
+                text: "Tu m'appelles souvent ainsi : un titre royal, celui d'une jeune femme noble qui mérite d'être traitée avec amour et respect. Comment m'appelles-tu?",
+                answer: ["princesse", "ma princesse"],
+                hint: "C'est un titre royal que tu me donnes souvent... 👑"
+            },
+            {
+                number: "Énigme 6 - La Dernière!",
+                text: "Pour compléter cette aventure, dis-moi les trois mots les plus importants, ceux qui viennent du cœur et qui résument tout ce que nous partageons...",
+                answer: ["je t'aime", "je taime", "jetaime", "je t aime"],
+                hint: "C'est ce que je ressens pour toi chaque jour, chaque instant... ❤️"
+            }
+        ];
+
+        let currentRiddle = 0;
+
+        // Créer les cœurs qui flottent
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartSymbols = ['💙', '💕', '💖', '💗', '✨'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (15 + Math.random() * 10) + 's';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        function startGame() {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('riddle-screen').classList.remove('hidden');
+            loadRiddle();
+            createProgress();
+        }
+
+        function createProgress() {
+            const progressDiv = document.getElementById('progress');
+            progressDiv.innerHTML = '';
+            for (let i = 0; i < riddles.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                if (i === currentRiddle) dot.classList.add('active');
+                if (i < currentRiddle) dot.classList.add('completed');
+                progressDiv.appendChild(dot);
+            }
+        }
+
+        function loadRiddle() {
+            const riddle = riddles[currentRiddle];
+            document.getElementById('riddle-number').textContent = riddle.number;
+            document.getElementById('riddle-text').textContent = riddle.text;
+            document.getElementById('answer-input').value = '';
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('hint').classList.add('hidden');
+            
+            // Afficher ou cacher la vidéo
+            const videoContainer = document.getElementById('video-container');
+            if (riddle.hasVideo) {
+                videoContainer.classList.remove('hidden');
+            } else {
+                videoContainer.classList.add('hidden');
+            }
+            
+            createProgress();
+        }
+
+        function showHint() {
+            const riddle = riddles[currentRiddle];
+            const hintDiv = document.getElementById('hint');
+            hintDiv.textContent = riddle.hint;
+            hintDiv.classList.remove('hidden');
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answer-input').value.toLowerCase().trim();
+            const riddle = riddles[currentRiddle];
+            const feedback = document.getElementById('feedback');
+
+            if (riddle.answer.some(ans => userAnswer === ans)) {
+                feedback.innerHTML = '<div class="success">✨ Bravo mon amour! C\'est la bonne réponse! ✨</div>';
+                
+                setTimeout(() => {
+                    currentRiddle++;
+                    if (currentRiddle < riddles.length) {
+                        loadRiddle();
+                    } else {
+                        showFinalScreen();
+                    }
+                }, 2000);
+            } else {
+                feedback.innerHTML = '<div class="error">💭 Hmm, ce n\'est pas tout à fait ça... Réessaie mon cœur!</div>';
+            }
+        }
+
+        function showFinalScreen() {
+            document.getElementById('riddle-screen').classList.add('hidden');
+            document.getElementById('final-screen').classList.remove('hidden');
+        }
+
+        // Permettre de valider avec la touche Entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+            
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !document.getElementById('riddle-screen').classList.contains('hidden')) {
+                    checkAnswer();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
